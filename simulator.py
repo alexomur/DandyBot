@@ -49,10 +49,10 @@ class DummyPliTk:
 
 
 # Simulation funcs
-def simulate_game(game, seed=None) -> Player:
+def simulate_game(game, seed=None) -> list[Player]:
     """
     Runs a single simulation of the game without graphics
-    and returns the name of the winning bot.
+    and returns the players leaderboard
     """
     if seed is not None:
         random.seed(seed)
@@ -62,26 +62,33 @@ def simulate_game(game, seed=None) -> Player:
     while board.play():
         pass
     players_sorted = sorted(board.players, key=lambda p: p.gold, reverse=True)
-    winner = players_sorted[0]
-    return winner
+    return players_sorted
 
 
 def run_simulations(num_games, game):
     """
-    Runs num_games game simulations in separate processes and collects statistics on wins.
-    After completion, displays in the console how many times each bot won.
+    Runs num_games game simulations in separate processes and collects statistics on all players.
+    After completion, displays in the console how many wins and total gold each bot accumulated.
     """
-    results: dict[str, (int, int)] = {} # player name : (wins, gold)
+    # results: player name -> (wins, total_gold)
+    results: dict[str, tuple[int, int]] = {}
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
         futures = [executor.submit(simulate_game, game, seed=i) for i in range(num_games)]
         for future in concurrent.futures.as_completed(futures):
-            winner = future.result()
-            results[winner.name] = tuple(a + b for a, b in zip(results.get(winner.name, (0, 0)), (1, winner.gold)))
+            leaderboard: list[Player] = future.result()
+            for idx, player in enumerate(leaderboard):
+                wins, total_gold = results.get(player.name, (0, 0))
+                if idx == 0:
+                    wins += 1
+                total_gold += player.gold
+                results[player.name] = (wins, total_gold)
+
+    sorted_results = sorted(results.items(), key=lambda item: item[1][0], reverse=True)
 
     print("Simulation Results:")
-    for bot, wins in results.items():
-        print(f"{bot}: {wins[0]} wins, {wins[1]} total gold")
+    for bot, (wins, total_gold) in sorted_results:
+        print(f"{bot}: {wins} wins, {total_gold} total gold")
 
 
 def run_games(num_games=10, filename="game.json"):
@@ -94,7 +101,7 @@ def run_games(num_games=10, filename="game.json"):
     run_simulations(num_games, game)
     end_time = time.time()
     print(f"Finished {num_games} simulations at {end_time}")
-    print(f"Total time: {(end_time - start_time)} s")
+    print(f"Total time: {(end_time - start_time):.2f} s")
 
 if __name__ == "__main__":
     run_games(NUM_GAMES, GAME_DATA)
