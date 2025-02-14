@@ -71,17 +71,17 @@ def run_simulations(num_games, game):
     Runs num_games game simulations in separate processes and collects statistics on wins.
     After completion, displays in the console how many times each bot won.
     """
-    results = {}
+    results: dict[str, (int, int)] = {} # player name : (wins, gold)
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
         futures = [executor.submit(simulate_game, game, seed=i) for i in range(num_games)]
         for future in concurrent.futures.as_completed(futures):
             winner = future.result()
-            results[winner] = results.get(winner, 0) + 1
+            results[winner.name] = tuple(a + b for a, b in zip(results.get(winner.name, (0, 0)), (1, winner.gold)))
 
     print("Simulation Results:")
     for bot, wins in results.items():
-        print(f"{bot}: {wins} wins")
+        print(f"{bot}: {wins[0]} wins, {wins[1]} total gold")
 
 
 def run_games(num_games=10, filename="game.json"):
