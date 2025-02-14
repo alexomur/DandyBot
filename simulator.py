@@ -62,7 +62,7 @@ def simulate_game(game, seed=None) -> Player:
     while board.play():
         pass
     players_sorted = sorted(board.players, key=lambda p: p.gold, reverse=True)
-    winner = players_sorted[0].name
+    winner = players_sorted[0]
     return winner
 
 
