@@ -87,8 +87,8 @@ def run_simulations(num_games, game):
     sorted_results = sorted(results.items(), key=lambda item: item[1][0], reverse=True)
 
     print("Simulation Results:")
-    for bot, (wins, total_gold) in sorted_results:
-        print(f"{bot}: {wins} wins, {total_gold} total gold")
+    for rank, (bot, (wins, total_gold)) in enumerate(sorted_results, start=1):
+        print(f"{rank}. {bot}: {wins} wins, {total_gold} total gold")
 
 
 def run_games(num_games=10, filename="game.json"):
