@@ -6,11 +6,11 @@ import json
 from pathlib import Path
 import concurrent.futures
 
-NUM_GAMES = 10
-FILENAME = "game.json"
+NUM_GAMES = 10          # Number of games running simultaneously. Uses multitasking (be careful using powerful AIs)
+GAME_DATA = "game.json" # Location of the file with information about players and levels
 
 
-# Classes that are easy to simulate
+# Classes easy to calculate
 class DummyBoard(Board):
     def __init__(self, game, canvas, label):
         main.PliTk = DummyPliTk
@@ -47,7 +47,8 @@ class DummyPliTk:
     def set_tile(self, x, y, index):
         pass
 
-# Функции симуляции
+
+# Simulation funcs
 def simulate_game(game, seed=None) -> str:
     """
     Runs a single simulation of the game without graphics
@@ -96,4 +97,4 @@ def run_games(num_games=10, filename="game.json"):
     print(f"Total time: {(end_time - start_time)} s")
 
 if __name__ == "__main__":
-    run_games(NUM_GAMES, FILENAME)
+    run_games(NUM_GAMES, GAME_DATA)
