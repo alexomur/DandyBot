@@ -1,5 +1,5 @@
 import main
-from main import Board
+from main import Board, Player
 import random
 import time
 import json
@@ -49,7 +49,7 @@ class DummyPliTk:
 
 
 # Simulation funcs
-def simulate_game(game, seed=None) -> str:
+def simulate_game(game, seed=None) -> Player:
     """
     Runs a single simulation of the game without graphics
     and returns the name of the winning bot.
