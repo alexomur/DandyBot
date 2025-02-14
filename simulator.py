@@ -10,7 +10,7 @@ NUM_GAMES = 10
 FILENAME = "game.json"
 
 
-# Классы, облегченные для симуляции
+# Classes that are easy to simulate
 class DummyBoard(Board):
     def __init__(self, game, canvas, label):
         main.PliTk = DummyPliTk
@@ -50,8 +50,8 @@ class DummyPliTk:
 # Функции симуляции
 def simulate_game(game, seed=None) -> str:
     """
-    Выполняет одну симуляцию игры без графики
-    и возвращает имя победившего бота.
+    Runs a single simulation of the game without graphics
+    and returns the name of the winning bot.
     """
     if seed is not None:
         random.seed(seed)
@@ -67,8 +67,8 @@ def simulate_game(game, seed=None) -> str:
 
 def run_simulations(num_games, game):
     """
-    Запускает num_games симуляций игры в отдельных процессах и собирает статистику по победам.
-    После завершения выводит в консоли, сколько раз победил каждый бот.
+    Runs num_games game simulations in separate processes and collects statistics on wins.
+    After completion, displays in the console how many times each bot won.
     """
     results = {}
 
@@ -85,7 +85,7 @@ def run_simulations(num_games, game):
 
 def run_games(num_games=10, filename="game.json"):
     """
-    Выполняет замеры времени и запускает игру
+    Performs timing measurements and starts the game
     """
     start_time = time.time()
     print(f"Starting {num_games} simulations at {start_time}")
