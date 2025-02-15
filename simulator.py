@@ -51,8 +51,8 @@ class DummyPliTk:
 # Simulation funcs
 def simulate_game(game, seed=None) -> list[Player]:
     """
-    Runs a single simulation of the game without graphics
-    and returns the players leaderboard
+    Runs a single simulation of the game without graphics.
+    and returns the players leaderboard.
     """
     if seed is not None:
         random.seed(seed)
@@ -93,7 +93,7 @@ def run_simulations(num_games, game):
 
 def run_games(num_games=10, filename="game.json"):
     """
-    Performs timing measurements and starts the game
+    Performs timing measurements and starts the game.
     """
     start_time = time.time()
     print(f"Starting {num_games} simulations at {start_time}")
