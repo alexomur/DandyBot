@@ -32,7 +32,7 @@ Available check types are:
 The game supports Simulation Mode for multiple games at once without a graphical interface.
 
 Starting Simulation Mode:
-1. `simulation.py` set up the `NUM_GAMES` and `GAME_DATA` fields.
-1. Run the `sumilation.py` file.
+1. `simulator.py` set up the `NUM_GAMES` and `GAME_DATA` fields.
+1. Run the `simulator.py` file.
 
 ![screenshot](screenshot.png)
